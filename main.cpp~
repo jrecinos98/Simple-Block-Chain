@@ -1,0 +1,48 @@
+#include <iostream>
+#include <string>
+#include "trans.h"
+
+int main(int argc, char* arg[]){
+  trans_chain::Blockchain* Transactions= new trans_chain::Blockchain();
+  int input;
+  std::cout<<"Welcome to the transaction-chain application...\n";
+	     std::cout<<"1) Add a transaction to the chain.\n"
+	       <<"2) Find a transaction with name of receiver or sender.\n"
+	       <<"3) Verify and print the chain.\n"
+	       <<"Which operation do you want to make?\n";
+  std::cin>> input;
+  switch(input){
+  case 1:
+    double amount=0;
+    std::string sender;
+    std::string receiver;
+    std::cout<<"Input the amount\n$";
+    std::cin>>amount;
+    std::cout<<"What is the name of the sender?\n";
+    std::cin>>sender;
+    std::cout<<"What is the name of the receiver?\n";
+    std::cin>>receiver;
+    break;
+  case 2:
+    int input;
+    std::name;
+    std::cout<<"Enter 1 to search for a sender. Enter 2 to search for a receiver\n";
+    std::cin>>input;
+    switch(input){
+    case 1:
+      std::cout<<"Enter the sender's name\n";
+      std::cin>>name;
+      Transactions.find_transactions(name);
+      break;
+    }
+    break;
+  case 3:
+    bool valid= Transactions.verify_transactions();
+    std::cout<<valid<<std::endl;
+    break;
+    
+    
+    
+    
+  }
+}

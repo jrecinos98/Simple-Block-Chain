@@ -1,0 +1,41 @@
+#ifndef TRANS_H
+#define TRANS_H
+#include <iostream>
+#include <string>
+
+
+namespace trans_chain{
+  class Transaction{
+  public:
+    Transaction(double amount=0,
+		std::string sender="", std::string receiver="", Transaction * next= NULL);
+    ~Transaction();
+    //Not sure if this should be here. Need to understand better how hash is supposed to be assigned
+    std::string getHash();
+    std::string getSender(){return sender;}
+    std::string getReceiver(){return receiver;}
+    double getAmount(){return amount;}
+
+  private:
+    std::string generate_nonce();
+    Transaction * next;
+    double amount;
+    std::string sender;
+    std::string receiver;
+    std::string nonce;
+    std::string hash;
+  };
+
+  class Blockchain{
+  public:
+    void insert_transaction(int amount, std::string sender, std::string receiver);
+    void find_transactions(std::string sender);
+    bool verify_transactions();
+  private:
+    Transaction * latest_trans;
+    Transaction * tail;    
+  };
+ 
+}
+
+#endif
