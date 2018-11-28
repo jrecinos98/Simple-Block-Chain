@@ -1,6 +1,7 @@
 #ifndef TRANS_H
 #define TRANS_H
 #include <string>
+#include <sstream>
 #include <iostream>
 
 
@@ -9,17 +10,28 @@ namespace trans_chain{
   public:
   
     Transaction(double amount=0,
-		std::string sender="", std::string receiver="", Transaction * next= NULL);
+		            std::string sender="", 
+                std::string receiver="", 
+                Transaction * next= NULL, 
+                std::string hash="NULL");
     ~Transaction();
     //Not sure if this should be here. Need to understand better how hash is supposed to be assigned
-    std::string getHash();
+    std::string generateNextHash();
+
     Transaction* getPreviousTrans(){return next;}
     std::string getSender() const {return sender;}
     std::string getReceiver() const {return receiver;}
+    std::string getHash()const {return hash;}
     double getAmount() const {return amount;}
+    std::string getStringAmount() const {
+      std::ostringstream strs;
+      strs<<amount;
+      std::string amount= strs.str();
+      return amount;
+    }
 
   private:
-    std::string generate_nonce();
+    void updateNonce(int seed=0);
     Transaction * next;
     double amount;
     std::string sender;
@@ -30,6 +42,8 @@ namespace trans_chain{
 
   std::ostream& operator << (std::ostream& out, const Transaction& t);
   void printOperations();
+  bool isHashValid(Transaction* t);
+  bool isFormatValid(std::string hash);
  
 
   class Blockchain{
@@ -40,7 +54,9 @@ namespace trans_chain{
     void find_transactions(const std::string sender)const;
     bool verify_transactions() const;
   private:
-    Transaction * latest_trans;    
+    void updateNextHash();
+    Transaction * latest_trans;  
+    std::string next_hash;  
   };
 
 
